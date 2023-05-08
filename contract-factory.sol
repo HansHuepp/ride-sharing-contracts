@@ -4,11 +4,12 @@ import "./contract.sol";
 
 contract ContractFactory {
     mapping(address => Contract[]) public userContracts;
+    event ContractCreated(address indexed user, Contract newContract);
 
-    function createContract(bytes32 _party1Signature) public returns (Contract) {
+    function createContract(bytes32 _party1Signature) public {
         Contract newContract = new Contract(msg.sender, _party1Signature);
         userContracts[msg.sender].push(newContract);
-        return newContract;
+        emit ContractCreated(msg.sender, newContract);
     }
 
     function getContractsByUser(address user) public view returns (Contract[] memory) {
