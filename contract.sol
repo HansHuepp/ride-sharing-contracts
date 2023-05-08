@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
 contract Contract {
@@ -7,7 +8,8 @@ contract Contract {
     bytes32 public party2Signature;
     bool public isActive;
 
-    constructor(address _party1, bytes32 _party1Signature) {
+    constructor(address _party1, bytes32 _party1Signature) payable {
+        require(msg.value == 2 ether, "2 ETH must be deposited when creating the contract.");
         party1 = _party1;
         party1Signature = _party1Signature;
     }
@@ -29,5 +31,12 @@ contract Contract {
         require(msg.sender == party1 || msg.sender == party2, "Not a party to the contract.");
 
         emit UpdatePosted(msg.sender, _message);
+    }
+
+    function claimETH() public {
+        require(isActive, "Contract is not active.");
+        require(msg.sender == party2, "Only Party2 can claim the deposited ETH.");
+
+        payable(party2).transfer(address(this).balance);
     }
 }
