@@ -7,13 +7,9 @@ contract ContractFactory {
     mapping(address => Contract[]) public userContracts;
     event ContractCreated(address indexed user, Contract newContract);
 
-    modifier hasSufficientFunds() {
-        require(msg.sender.balance >= 2 ether, "Insufficient funds to deposit 2 ETH.");
-        _;
-    }
-
-    function createContract(bytes32 _party1Signature) public payable hasSufficientFunds {
-        Contract newContract = new Contract{value: 2 ether}(msg.sender, _party1Signature);
+    function createContract(bytes32 _party1Signature, uint256 _amount) public payable {
+        require(msg.value == _amount, "Sent value does not match the specified amount.");
+        Contract newContract = new Contract{value: _amount}(msg.sender, _party1Signature);
         userContracts[msg.sender].push(newContract);
         emit ContractCreated(msg.sender, newContract);
     }

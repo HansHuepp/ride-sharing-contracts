@@ -9,7 +9,6 @@ contract Contract {
     bool public isActive;
 
     constructor(address _party1, bytes32 _party1Signature) payable {
-        require(msg.value == 2 ether, "2 ETH must be deposited when creating the contract.");
         party1 = _party1;
         party1Signature = _party1Signature;
     }
@@ -26,7 +25,7 @@ contract Contract {
 
     event UpdatePosted(address indexed author, string message);
 
-    function postUpdate(string memory _message) public {
+    function setRideAcceptedStatus(string memory _message) public {
         require(isActive, "Contract is not active.");
         require(msg.sender == party1 || msg.sender == party2, "Not a party to the contract.");
 
