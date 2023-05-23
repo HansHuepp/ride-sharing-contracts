@@ -51,14 +51,14 @@ contract Contract {
         emit UpdatePosted(msg.sender, _message, "rideProviderAcceptedStatus");
     }
 
-    function setRideProviderArrviedAtPickupLocation(string memory _message) public {
+    function setRideProviderArrivedAtPickupLocation(string memory _message) public {
         require(isActive, "Contract is not active.");
         require(msg.sender == party2, "Only Party2 can set the ride provider arrived status.");
         require(rideProviderAcceptedStatus, "Ride Provider Accepted Status must be set before setting arrived status.");
         require(!rideProviderArrivedAtPickupLocation, "Ride Provider Arrived Status can only be set once.");
         
         rideProviderArrivedAtPickupLocation = true;
-        emit UpdatePosted(msg.sender, _message, "rideProviderArrviedAtPickupLocation");
+        emit UpdatePosted(msg.sender, _message, "rideProviderArrivedAtPickupLocation");
     }
 
     function setUserReadyToStartRide(string memory _message) public {
