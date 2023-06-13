@@ -1,0 +1,77 @@
+{
+  "_format": "hh-sol-cache-2",
+  "files": {
+    "/Users/hanshuppelshauser/Documents/GitHub/ride-sharing-contracts/contracts/contract-factory.sol": {
+      "lastModificationDate": 1686687100463,
+      "contentHash": "c6a41f351320d3542a9ad7b66ee4a3b5",
+      "sourceName": "contracts/contract-factory.sol",
+      "solcConfig": {
+        "version": "0.8.18",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./contract.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "ContractFactory"
+      ]
+    },
+    "/Users/hanshuppelshauser/Documents/GitHub/ride-sharing-contracts/contracts/contract.sol": {
+      "lastModificationDate": 1686687073899,
+      "contentHash": "b77995cf14c22f88eaa192ec01c4901d",
+      "sourceName": "contracts/contract.sol",
+      "solcConfig": {
+        "version": "0.8.18",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "Contract"
+      ]
+    }
+  }
+}
