@@ -14,6 +14,11 @@ contract Contract {
     bool public userCanceldRide;
     bool public rideProviderCanceldRide;
 
+    uint public userRating;
+    uint public rideRating;
+    bool public isUserRatingSet;
+    bool public isRideRatingSet;
+
     constructor(address _party1) payable {
         party1 = _party1;
         rideProviderAcceptedStatus = false;
@@ -160,6 +165,24 @@ contract Contract {
         payable(party1).transfer(balance);
         
         emit UpdatePosted(msg.sender, _message, "rideProviderCanceldRide");
+    }
+
+    function setUserRating(uint _rating) public {
+        require(msg.sender == party2, "Only Party2 can set the user rating.");
+        require(!isUserRatingSet, "User rating can only be set once.");
+        require(isActive, "Contract is not active.");
+        require(_rating >= 0 && _rating <= 5, "Rating must be between 0 and 5.");
+        userRating = _rating;
+        isUserRatingSet = true;
+    }
+
+    function setRideRating(uint _rating) public {
+        require(msg.sender == party1, "Only Party1 can set the ride rating.");
+        require(!isRideRatingSet, "Ride rating can only be set once.");
+        require(_rating >= 0 && _rating <= 5, "Rating must be between 0 and 5.");
+        require(isActive, "Contract is not active.");
+        rideRating = _rating;
+        isRideRatingSet = true;
     }
 
 
