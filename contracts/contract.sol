@@ -29,6 +29,39 @@ contract Contract {
         userMarkedRideComplete = false;
         userCanceldRide = false;
         rideProviderCanceldRide = false;
+
+    }
+
+    struct Passenger {
+        string passengerID;
+        uint seatingPosition;
+        string startTime;
+        uint rating;
+    }
+
+    Passenger[] public passengers;
+
+    function addPassenger(string memory _passengerID, uint _seatingPosition, string memory _startTime) public {
+        require(isActive, "Contract is not active.");
+        require(msg.sender == party2, "Only Party2 can add passengers.");
+
+        Passenger memory newPassenger = Passenger({
+            passengerID: _passengerID,
+            seatingPosition: _seatingPosition,
+            startTime: _startTime,
+            rating: 0
+        });
+
+        passengers.push(newPassenger);
+    }
+
+    function addPassengerRating(uint _passengerIndex, uint _rating) public {
+        require(isActive, "Contract is not active.");
+        require(msg.sender == party1, "Only Party1 can rate passengers.");
+        require(_rating >= 0 && _rating <= 5, "Rating must be between 0 and 5.");
+        require(_passengerIndex < passengers.length, "Passenger not found.");
+
+        passengers[_passengerIndex].rating = _rating;
     }
 
     function signContract() public payable {
@@ -48,7 +81,6 @@ contract Contract {
             payable(msg.sender).transfer(msg.value - tenPercent);
         }
     }
-
 
     event UpdatePosted(address indexed author, string message, string functionName);
 
@@ -206,6 +238,5 @@ contract Contract {
         payable(party1).transfer(payback);
         payable(party2).transfer(remainder);
     }
-
 
 }
