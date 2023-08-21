@@ -14,13 +14,16 @@ contract ContractFactory {
     // Mapping from contract ID to contract address
     mapping(uint256 => address) public contractsByID;
 
+    // Mapping from contract ID to contract timestamp
+    mapping(uint256 => uint256) public timestampByID;
+
+
     constructor(address _matchingServiceAddress) {
         matchingServiceInstance = MatchingService(_matchingServiceAddress);
 
         // Set this contract as the factory address in the MatchingService contract
         matchingServiceInstance.setFactoryAddress(address(this));
     }
-
 
     mapping(address => Contract[]) public userContracts;
     event ContractCreated(address indexed user, Contract newContract, uint256 contractID);  // Added contractID to the event
@@ -32,7 +35,6 @@ contract ContractFactory {
         // Optionally, store the registered contract's address in this factory for record-keeping
         registeredContracts.push(_contractAddress);
     }
-    
 
     function createContract(uint256 _amount) public payable {
         require(msg.value == _amount, "Sent value does not match the specified amount.");
@@ -42,6 +44,9 @@ contract ContractFactory {
         // Increment contract counter and map new contract's address to the counter
         contractCounter++;
         contractsByID[contractCounter] = address(newContract);
+        
+        // Store the current block's timestamp
+        timestampByID[contractCounter] = block.timestamp;
 
         // Call registerNewContract with the new contract's address
         this.registerNewContract(address(newContract));
@@ -55,5 +60,10 @@ contract ContractFactory {
 
     function getContractByID(uint256 contractID) public view returns (address) {
         return contractsByID[contractID];
+    }
+
+    // Fetch the timestamp by contract ID
+    function getContractTimestampByID(uint256 contractID) public view returns (uint256) {
+        return timestampByID[contractID];
     }
 }
