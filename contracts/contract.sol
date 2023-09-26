@@ -1,6 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
+interface IMatchingService {
+    function addMatch(string memory serviceName) external;
+}
+
 contract Contract {
     address public party1;
     address public party2;
@@ -18,6 +22,10 @@ contract Contract {
     uint public rideRating;
     bool public isUserRatingSet;
     bool public isRideRatingSet;
+
+    //Hard Coded Address of the Matching Service to bump up Matching Count of Rating Service
+    address constant MATCHING_SERVICE_ADDRESS = 0x0991df810C73d820c776b024Eb720d39e9CfBb1a;
+
 
     constructor(address _party1) payable {
         party1 = _party1;
@@ -38,6 +46,7 @@ contract Contract {
         string startTime;
         uint rating;
     }
+
 
     Passenger[] public passengers;
 
@@ -159,6 +168,8 @@ contract Contract {
         require(!userCanceldRide, "User Canceld Ride Status can only be set once.");
 
         userMarkedRideComplete = true;
+        //Call Matching Service, ms1 is hardcoded. For a real implementation this value would be provided by the forntend when calling the setUserMarkedRideComplete() function
+        IMatchingService(MATCHING_SERVICE_ADDRESS).addMatch("ms1");
         emit UpdatePosted(msg.sender, _message, "userMarkedRideComplete");
     }
 
@@ -224,7 +235,7 @@ contract Contract {
         require(userMarkedRideComplete, "User must mark the ride complete before claiming the deposited ETH.");
         require(amount <= address(this).balance, "Requested amount exceeds the contract balance.");
         
-        address payable hardcodedAddress = payable(0xE39a3085CB78341547F30a1C6bD12977d51aa967);  // replace with the actual hardcoded address
+        address payable hardcodedAddress = payable(0xE39a3085CB78341547F30a1C6bD12977d51aa967);  // replace with the actual GETACAR Foundation address
 
         uint256 balance = address(this).balance;
         uint256 tenPercent = balance / 10;

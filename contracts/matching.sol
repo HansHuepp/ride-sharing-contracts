@@ -9,13 +9,14 @@ contract MatchingService {
         uint256 requests;
     }
 
+
     MatchingServiceObject[5] public services;
 
     address public FACTORY_ADDRESS;
     bool public isFactoryAddressSet = false;
 
     mapping(address => bool) public registeredContracts;
-    address[] public registeredContractsList; // Added this line
+    address[] public registeredContractsList; 
 
     // Declare the event
     event LowestMatchService(string serviceName, uint256 serviceRating);
@@ -30,6 +31,7 @@ contract MatchingService {
         _;
     }
 
+    //Hardcoded Dummy Matching Services 
     constructor() {
         services[0] = MatchingServiceObject("ms1", 10, 15);
         services[1] = MatchingServiceObject("ms2", 15, 20);
@@ -47,7 +49,7 @@ contract MatchingService {
     function registerContract(address contractAddress) external onlyFactory {
         require(!registeredContracts[contractAddress], "Contract is already registered"); // Additional check to prevent duplicate addresses
         registeredContracts[contractAddress] = true;
-        registeredContractsList.push(contractAddress); // Added this line
+        registeredContractsList.push(contractAddress); 
     }
 
     function getAllRegisteredContracts() external view returns (address[] memory) {
